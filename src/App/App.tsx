@@ -10,35 +10,17 @@
 
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StatusBar, Text, View} from 'react-native';
-import Button from './components/Button';
-import Product from './components/Product';
+import {IProduct} from '../../model/Products';
 import ProductList from './components/ProductList/ProductList';
 import ProductSearch from './components/ProductSearch/ProductSearch';
-const initialState: Array<Product> = [
-  {
-    id: 1,
-    name: 'First product',
-    prix: 10.0,
-    img: 'https://picsum.photos/id/123/600/400',
-  },
-  {
-    id: 2,
-    name: 'Second product',
-    prix: 3.5,
-    img: 'https://picsum.photos/id/345/600/400',
-  },
-  {
-    id: 3,
-    name: 'Third product',
-    prix: 25,
-    img: 'https://picsum.photos/id/567/600/400',
-  },
-];
+import {ADR_REST, RESSOURCES_NAME} from './config/config';
+const initialState: Array<IProduct> = [];
 
 const App = () => {
   const [products, setProducts] = useState(initialState);
   const [filteredProduct, setFilteredProduct] = useState(initialState);
   const [search, setSearch] = useState('');
+
   useEffect(() => {
     console.log('Dans APP la search = ' + search);
     if (search.length === 0) {
@@ -46,11 +28,20 @@ const App = () => {
     } else {
       setFilteredProduct(
         products.filter(e => {
-          return e.name.toLowerCase().includes(search.toLowerCase());
+          return e.name
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase());
         }),
       );
     }
   }, [search, products]);
+
+  useEffect(() => {
+    fetch(`${ADR_REST}${RESSOURCES_NAME.products}`)
+      .then(f => f.json())
+      .then(res => setProducts(res));
+  }, []);
+
   return (
     <SafeAreaView>
       <StatusBar />

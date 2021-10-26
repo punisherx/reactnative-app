@@ -1,11 +1,9 @@
 import React, {ReactElement, ReactNode} from 'react';
 import {Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import PropTypes from 'prop-types';
+import {IProduct} from '../../../model/Products';
 interface Props {
-  id: Number;
-  name: String;
-  prix: Number;
-  img: String;
+  product: IProduct;
 }
 const Product: React.FC<Props> = props => {
   console.log(props);
@@ -29,8 +27,7 @@ const Product: React.FC<Props> = props => {
     </TouchableHighlight>
   );
 };
-Product.propTypes = {
-};
+Product.propTypes = {};
 Product.defaultProps = {
   img: 'https://commons.wikimedia.org/wiki/Category:Image_placeholders#/media/File:Missing-image-232x150.png',
 };
