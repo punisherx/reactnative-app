@@ -1,5 +1,5 @@
 import React, {ReactElement, ReactNode} from 'react';
-import {Alert, StyleSheet, TouchableHighlight, View} from 'react-native';
+import {StyleSheet, TouchableHighlight, View} from 'react-native';
 import PropTypes from 'prop-types';
 interface Props {
   children: ReactElement | Array<ReactElement | ReactNode> | String;
@@ -13,7 +13,7 @@ const Button: React.FC<Props> = props => {
       activeOpacity={0.6}
       underlayColor="#DDDDDD"
       onPress={evt => {
-        props.onMyButtonPressedAction('gugu');
+        props.onMyButtonPressedAction('toto');
         console.log(evt);
       }}>
       <View
@@ -28,18 +28,14 @@ const Button: React.FC<Props> = props => {
   );
 };
 Button.propTypes = {
-  children: PropTypes.any.isRequired,
   bgColor: PropTypes.string.isRequired,
 };
 Button.defaultProps = {
-  bgColor: 'plum',
+  bgColor: '#0af',
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f0a',
     padding: 10,
-    marginTop: 5,
-    borderRadius: 5,
   },
   textContent: {
     color: 'white',
@@ -48,8 +44,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   moreContainer: {
-    width: '80%',
-    marginLeft: '10%',
+    // width: '80%',
+    // marginLeft: '10%',
   },
 });
 export default Button;

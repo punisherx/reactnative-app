@@ -8,48 +8,60 @@
  * @format
  */
 
-import React, {useState} from 'react';
-import {
-  Alert,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, ScrollView, StatusBar, Text, View} from 'react-native';
 import Button from './components/Button';
+import Product from './components/Product';
+import ProductList from './components/ProductList/ProductList';
+import ProductSearch from './components/ProductSearch/ProductSearch';
+const initialState: Array<Product> = [
+  {
+    id: 1,
+    name: 'First product',
+    prix: 10.0,
+    img: 'https://picsum.photos/id/123/600/400',
+  },
+  {
+    id: 2,
+    name: 'Second product',
+    prix: 3.5,
+    img: 'https://picsum.photos/id/345/600/400',
+  },
+  {
+    id: 3,
+    name: 'Third product',
+    prix: 25,
+    img: 'https://picsum.photos/id/567/600/400',
+  },
+];
 
 const App = () => {
-  const [counter, setCounter] = useState(0);
+  const [products, setProducts] = useState(initialState);
+  const [filteredProduct, setFilteredProduct] = useState(initialState);
+  const [search, setSearch] = useState('');
+  useEffect(() => {
+    console.log('Dans APP la search = ' + search);
+    if (search.length === 0) {
+      setFilteredProduct(products);
+    } else {
+      setFilteredProduct(
+        products.filter(e => {
+          return e.name.toLowerCase().includes(search.toLowerCase());
+        }),
+      );
+    }
+  }, [search, products]);
   return (
     <SafeAreaView>
       <StatusBar />
+      <ProductSearch
+        value={search}
+        onChange={(text: string) => {
+          setSearch(text);
+        }}
+      />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View>
-          <Text>Counter value : {counter}</Text>
-        </View>
-        <View>
-          <Text>DEMAT Breizh</Text>
-          <Button
-            bgColor="tomato"
-            onMyButtonPressedAction={() => {
-              setCounter(counter + 1);
-              console.log(counter);
-            }}>
-            <View>
-              <Text>Add 1</Text>
-            </View>
-          </Button>
-          <Button
-            onMyButtonPressedAction={() => {
-              setCounter(counter - 1);
-              console.log(counter);
-            }}>
-            <View>
-              <Text>Substract 1</Text>
-            </View>
-          </Button>
-        </View>
+        <ProductList products={filteredProduct} />
       </ScrollView>
     </SafeAreaView>
   );
